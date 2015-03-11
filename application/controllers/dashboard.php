@@ -17,14 +17,17 @@ class Dashboard extends Main {
 		 
 		$this->output->enable_profiler();
 	}
+
 	public function index()
 	{ 
 		$current_user  			= $this->current_user;
 		$all_users 				= $this->User->get_all_users(); 
 		$current_user_friends 	= $this->Friend->get_user_friends($current_user['user_id']);
-		//var_dump($current_user_friends);
-		$friend_ids = array();
+	 
+	
 		//To find the friends of current user
+		$friend_ids = array();
+
 		foreach ($current_user_friends as $friends) 
 		{
 			if($current_user['user_id'] == $friends['user_id'] )
@@ -47,7 +50,7 @@ class Dashboard extends Main {
 		}
        
 		$this->load->view("dashboard/index" ,array(
-											   'current_user'         => $current_user ,
+											   									 'current_user'         => $current_user ,
 		                                       'current_user_friends' => $friend_ids,
 		                                       'all_users'            => $all_users,
 		                                       'other_users'          => $not_current_users_friends_ids) );
@@ -58,13 +61,35 @@ class Dashboard extends Main {
 	{
 		$user_details = $this->User->get_user_by_id($user_id);
 		$this->load->view("dashboard/profile",array(
-												'user_details' => $user_details )
+																						'user_details' => $user_details 
+																					)
 		                  );
 	}
 	 
-	public function create_friend($user_id,$friend_id)
+	public function add_friend($user_id=NULL,$friend_id=NULL)
 	{
-		$this->Friend->create_friend($user_id,$friend_id);
+		if($user_id !== NULL && $friend_id !== NULL)
+		{
+			$this->Friend->create_friend($user_id,$friend_id);
+			redirect(base_url('/dashboard/index'));
+		}
+		else
+		{
+			redirect(base_url('/dashboard/index'));
+		}
+	}
+
+	public function remove_friend($user_id=NULL,$friend_id=NULL)
+	{
+		if($user_id !== NULL && $friend_id !== NULL)
+		{
+			$this->Friend->remove_friend($user_id,$friend_id);
+			redirect(base_url('/dashboard/index'));
+		}
+		else
+		{
+			redirect(base_url('/dashboard/index'));
+		}
 	}
 
 	public function logout()

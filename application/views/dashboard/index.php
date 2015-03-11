@@ -50,36 +50,36 @@
 	<div class="col-md-6">
 		<h3 class="page-header">Users not in your friends list</h3> 
 		<?php 
-					if(count($other_users)==0)
-					{
-						echo "You have added all the users to ur friends list....";
-					}
-					else
-						{ ?>
-								<table class="table well table-bordered">
-									<thead>
-										<th>Full Name</th>
-										<th>Email</th>
-										<th>Action</th>
-									</thead>
-									<tbody>
-									 <?php 
-									 	 foreach ($other_users as $key => $user) 
-									 	 	if($user['id'] != $current_user['user_id'])
-											 	  {
-									 	 	{?>
-									 		<tr>
-									 				<td> <?php echo $user['first_name']." ".$user['last_name'];?></td>
-									 	  		<td> <?php echo $user['username'];?> </td>
-									 	  		<td><a href="/dashboard/view_profile/<?=$user['id']?>" class="btn btn-success">View Profile</a></td>
-									 	  		<td>
-													<a href="/dashboard/add_friend/<?=$current_user['user_id']?>/<?=$user['id']?>" class="btn btn-primary">Add friend</a>
-												</td>
-											</tr>
-									 <?php	 } }
-									 ?>	
-									</tbody>
-								</table>
+			if(count($other_users)==1 && $other_users[0]['id']==$current_user['user_id'])
+			{
+				echo "You have added all the users to ur friends list....";
+			}
+			else
+				{ ?>
+						<table class="table well table-bordered">
+							<thead>
+								<th>Full Name</th>
+								<th>Email</th>
+								<th>Action</th>
+							</thead>
+							<tbody>
+							 <?php 
+							 	 foreach ($other_users as $key => $user) 
+							 	 	if($user['id'] != $current_user['user_id'])
+									 	  {
+							 	 	{?>
+							 		<tr>
+							 				<td> <?php echo $user['first_name']." ".$user['last_name'];?></td>
+							 	  		<td> <?php echo $user['username'];?> </td>
+							 	  		<td><a href="/dashboard/view_profile/<?=$user['id']?>" class="btn btn-success">View Profile</a></td>
+							 	  		<td>
+											<a href="/dashboard/add_friend/<?=$current_user['user_id']?>/<?=$user['id']?>" class="btn btn-primary">Add friend</a>
+										</td>
+									</tr>
+							 <?php	 } }
+							 ?>	
+							</tbody>
+						</table>
 <?php				}
 		?>
 	</div>

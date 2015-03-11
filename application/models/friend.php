@@ -9,14 +9,26 @@ Class Friend extends CI_model
 	public function create_friend($user_id,$friend_id)
 	{
 		$friendship_data = array(
-										   'user_id'       => $user_id ,
-										   'friend_id'     => $friend_id,
-										   'created_at'    => date('m-d-y h:s:i'),
-										   'updated_at'    => date('m-d-y h:i:s a')
-	);
-
+							'user_id'       => $user_id ,
+						    'friend_id'     => $friend_id,
+						    'created_at'    => date('m-d-y h:s:i'),
+						    'updated_at'    => date('m-d-y h:i:s a')
+						   );
+										   
+		 
 	return $this->db->insert('friends', $friendship_data);
+	}
 
+	public function remove_friend($user_id,$friend_id)
+	{
+		$delete_query = " DELETE  
+						  FROM friends 
+						  WHERE 
+						  friends.user_id   = ? &&  friends.friend_id = ?
+						  OR 
+						  friends.user_id   = ? &&  friends.friend_id = ? ";
+
+		return $this->db->query($delete_query,array($user_id,$friend_id,$friend_id,$user_id));			  
 	}
 
 	public function get_user_friends($user_id)
